@@ -1,24 +1,22 @@
-import logo from './logo.svg';
+import React, {useState} from "react";
+import IntroPage from "./components/IntroPage";
+import Questions from "./components/Questions";
+import yellowBlob from "./assets/yellowblob.svg";
+import blueBlob from "./assets/bluleblob.svg";
 import './App.css';
-
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    const [newGame, setNewGame] = useState(true)
+
+    function toggleNewGame() {
+        setNewGame(prevGame => !prevGame)
+    }
+
+    return (
+        <div className="App">
+            <img className="yellow-blob" src={yellowBlob} alt="a yellow blob" />
+            { newGame ? <IntroPage toggleGame={toggleNewGame}/> : <Questions />}
+            <img className="blue-blob" src={blueBlob} alt="a blue blob" />
+        </div>
   );
 }
 
