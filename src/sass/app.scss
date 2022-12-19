@@ -1,0 +1,30 @@
+.App {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .blue-blob, .yellow-blob {
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    z-index: -1;
+  }
+
+  .blue-blob {
+    bottom: 0;
+  }
+
+  .yellow-blob {
+    align-self: flex-end;
+  }
+
+  .start-quiz-button:hover, .question-button:hover, .answer-button:hover {
+    scale: 1.02;
+  }
+
+  .start-quiz-button:active, .question-button:active, .answer-button:active {
+    scale: 1;
+  }
+
+}

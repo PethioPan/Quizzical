@@ -1,0 +1,27 @@
+.intro-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #293264;
+  min-height: 100vh;
+
+  .start-quiz-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    min-width: 15rem;
+    height: 4rem;
+    margin-top: 1rem;
+    border: none;
+    padding: 1rem;
+    border-radius: 15px;
+    color: white;
+    background-color: #4D5B9E;
+  }
+
+  .disabled {
+    background-color: grey;
+  }
+}

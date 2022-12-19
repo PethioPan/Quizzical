@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import '../sass/question.scss';
 
 export default function Question(props) {
 
@@ -54,7 +55,7 @@ export default function Question(props) {
                         questionData.map((item => {
                             return <button
                                 key={item.id}
-                                className={`answer ${item.selected ? "selected" : ""}`}
+                                className={`answer-button ${item.selected ? "selected" : ""}`}
                                 onClick={() => selectItem(item)}
                             >{item.text}</button>
                         }))
