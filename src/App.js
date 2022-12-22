@@ -10,13 +10,17 @@ function App() {
     const [rawData, setRawData] = useState([])
     const apiURL = "https://opentdb.com/api.php?amount=5";
 
-    // useEffect(() => {
-    //     const getData = async (url) => {
-    //         const response = await fetch(url)
-    //         const data = await response.json();
-    //         return data;
-    //     }
-    // }, [])
+    useEffect(() => {
+        const getData = async (url) => {
+            const response = await fetch(url)
+            const data = await response.json();
+            return data.results;
+        }
+
+        getData(apiURL).then((result) => {
+            setRawData(result)
+        });
+    }, [])
 
     function toggleNewGame() {
         setNewGame(prevGame => !prevGame)

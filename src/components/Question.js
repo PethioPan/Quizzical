@@ -1,67 +1,25 @@
-import React, {useState} from "react";
+import React from "react";
 import '../sass/question.scss';
 
-export default function Question(props) {
+export default function Question({selectItem, question, choices, answer, selected}) {
 
-    const [questionData, setQuestionData] = useState([
-        {
-            id: 1,
-            selected: false,
-            text: "Adios"
-        },
-        {
-            id: 2,
-            selected: false,
-            text: "Hola"
-        },
-        {
-            id: 3,
-            selected: false,
-            text: "Au Revoir"
-        },
-        {
-            id: 4,
-            selected: false,
-            text: "Salir"
-        }
-    ])
-
-    function selectItem(item) {
-        const isEveryItemNotSelected = questionData.every(item => item.selected === false)
-
-        if(isEveryItemNotSelected) {
-            setQuestionData(prevQuestion => (
-                prevQuestion.map(prevItem => ({
-                    ...prevItem,
-                    selected: item.id === prevItem.id ? !prevItem.selected : prevItem.selected
-                }))
-            ));
-        } else {
-            setQuestionData(prevQuesion => (
-                prevQuesion.map(prevItem => ({
-                    ...prevItem,
-                    selected: prevItem.selected && item.id === prevItem.id ? !prevItem.selected : prevItem.selected
-                }))
-            ))
-        }
-    }
-
-    return(
+    return (
         <div className="question">
-            <h3>How would one say goodbye in Spanish?</h3>
+            <h3>{question}</h3>
             <div className="answer-container">
                 <div>
                     {
-                        questionData.map((item => {
-                            return <button
-                                key={item.id}
-                                className={`answer-button ${item.selected ? "selected" : ""}`}
-                                onClick={() => selectItem(item)}
-                            >{item.text}</button>
-                        }))
+                        choices.map((choice, index) => (
+                            <button
+                                key={index}
+                                className={`answer-button ${selected ? "selected" : ""}`}
+                                onClick={selectItem}>
+                                {choice}
+                            </button>
+                        ))
                     }
                 </div>
-                <div className="horizontal-line" />
+                <div className="horizontal-line"/>
             </div>
         </div>
     )
