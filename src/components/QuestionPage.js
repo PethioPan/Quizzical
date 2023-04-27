@@ -19,11 +19,8 @@ export default function QuestionPage({ data }) {
                 })
             }
         });
-
+        
         setItems(items)
-
-        console.log("DATA", data)
-        items ? console.log("ITEMS", items) : console.log("FAILED")
     }, [])
 
     function selectItem(item) {

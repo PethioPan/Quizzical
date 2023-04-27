@@ -16,23 +16,28 @@
   .answer-container {
     width: 50%;
 
+    .answer-section {
+      display: flex;
+      align-items: center;
+    }
+
+    .answer-button {
+      background-color: white;
+      padding: 0.3rem 1.5rem;
+      border: 1px solid #293264;
+      border-radius: 10px;
+      margin-right: 2rem;
+    }
+
+    .selected {
+      background-color: #D6DBF5;
+      border: none;
+    }
+
     .horizontal-line {
       background: #DBDEF0;
       height: 1px;
       margin: 1.5rem 0;
     }
-  }
-
-  .answer-button {
-    background-color: transparent;
-    padding: 0.3rem 1.5rem;
-    border: 1px solid #293264;
-    border-radius: 10px;
-    margin-right: 2rem;
-  }
-
-  .selected {
-    background-color: #D6DBF5;
-    border: none;
   }
 }
