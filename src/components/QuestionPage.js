@@ -1,66 +1,67 @@
 import React, {useEffect, useState} from "react";
 import Question from "./Question";
 import '../sass/questionPage.scss';
-import { nanoid } from "nanoid";
-import {HashLoader} from "react-spinners";
-export default function QuestionPage({ data }) {
+import {nanoid} from "nanoid";
+
+export default function QuestionPage({data}) {
     const [gameOver, setGameOver] = useState(false);
     const [items, setItems] = useState([]);
 
     useEffect(() => {
-        data.map(d => {
-            if(items.length < 5) {
-                return items.push({
-                    id: nanoid(),
-                    question: d.question,
-                    choices: [...d.incorrect_answers, d.correct_answer],
-                    answer: d.correct_answer,
-                    selected: false
+        data.forEach((d, index) => {
+            if (index < 5) {
+                setItems(prevState => {
+                    return [...prevState, {
+                        id: nanoid(),
+                        question: d.question,
+                        choices: [...d.incorrect_answers, d.correct_answer],
+                        answer: d.correct_answer,
+                    }]
                 })
             }
         });
-        
-        setItems(items)
-    }, [])
+        return () => {
+            setItems([])
+        }
+    }, [data])
 
-    function selectItem(item) {
-        const isEveryItemNotSelected = data.every(item => item.selected === false)
-
-        if(isEveryItemNotSelected) {
-            setItems(prevQuestion => (
-                prevQuestion.map(prevItem => ({
-                    ...prevItem,
-                    selected: item.id === prevItem.id ? !prevItem.selected : prevItem.selected
-                }))
-            ));
+    function selectItem(event) {
+        // let questions = Array.from(event.target.parentElement.children).map(item => item.innerText)
+        let currentList = items.filter(item => {
+            return item.choices.includes(event.target.innerText)
+        })
+        let questionClasses = Array.from(event.target.parentElement.children).map(item => item.classList.value)
+        let containsSelected = questionClasses.some(item => {
+            return item.includes("selected")
+        })
+        if (!containsSelected) {
+            if (!event.target.classList.contains("selected")) {
+                event.target.classList.add("selected")
+                if (currentList[0].answer === event.target.innerText) {
+                    event.target.classList.add('correct')
+                }
+            }
         } else {
-            setItems(prevQuesion => (
-                prevQuesion.map(prevItem => ({
-                    ...prevItem,
-                    selected: prevItem.selected && item.id === prevItem.id ? !prevItem.selected : prevItem.selected
-                }))
-            ))
+            event.target.classList.remove("selected")
+            event.target.classList.remove('correct')
         }
     }
 
-    return(
+    return (
         <main className="question-container">
             {
-                items.length === 5 ? items.map(item => {
+                items.map((item, index) => {
                     return (
-                            <Question
-                                key={item.id}
-                                selectItem={selectItem}
-                                selected={item.selected}
-                                question={item.question}
-                                choices={item.choices}
-                                answer={item.answer}
-                            />
+                        <Question
+                            key={item.id}
+                            questionData={item}
+                            selectItem={selectItem}
+                        />
                     )
-                }) : <HashLoader size={50} color="#bbc3ee" />
+                })
             }
             {/*<h3>You Scored {3}/{5} </h3>*/}
-            <button className="question-button">{ gameOver ? "Play Again" : "Check Answers"}</button>
+            <button className="question-button">{gameOver ? "Play Again" : "Check Answers"}</button>
         </main>
     )
 }

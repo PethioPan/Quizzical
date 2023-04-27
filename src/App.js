@@ -20,6 +20,10 @@ function App() {
         getData(apiURL).then((result) => {
             setRawData(result)
         });
+
+        return () => {
+            setRawData([])
+        }
     }, [])
 
     function toggleNewGame() {
