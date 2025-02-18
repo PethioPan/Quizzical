@@ -11,19 +11,16 @@ function App() {
     const apiURL = "https://opentdb.com/api.php?amount=5";
 
     useEffect(() => {
-        const getData = async (url) => {
-            const response = await fetch(url)
-            const data = await response.json();
-            return data.results;
-        }
-
-        getData(apiURL).then((result) => {
-            setRawData(result)
-        });
-
-        return () => {
-            setRawData([])
-        }
+        const controller = new AbortController()
+        fetch(apiURL,
+            {
+                signal: controller.signal,
+            })
+            .then(response => response.json())
+            .then(data => setRawData(data.results))
+            .catch(e => console.log('aborted fetch call'))
+            .catch(e => console.error(e))
+        return () => controller.abort();
     }, [])
 
     function toggleNewGame() {
@@ -32,14 +29,15 @@ function App() {
 
     return (
         <div className="App">
-            <img className="yellow-blob" src={yellowBlob} alt="a yellow blob" />
+            <img className="yellow-blob" src={yellowBlob} alt="a yellow blob"/>
             {
                 newGame ?
-                    <IntroPage toggleGame={toggleNewGame} data={rawData} /> :
-                    <QuestionPage data={rawData} />
+                    <IntroPage toggleNewGame={toggleNewGame} data={rawData}/> :
+                    <QuestionPage toggleNewGame={toggleNewGame} data={rawData}/>
             }
-            <img className="blue-blob" src={blueBlob} alt="a blue blob" />
+            <img className="blue-blob" src={blueBlob} alt="a blue blob"/>
         </div>
-  );
+    );
 }
+
 export default App;

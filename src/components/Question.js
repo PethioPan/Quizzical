@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useMemo} from "react";
 import '../sass/question.scss';
 
 export default function Question({selectItem, questionData}) {
@@ -8,14 +8,19 @@ export default function Question({selectItem, questionData}) {
         return txt.documentElement.textContent;
     }
 
-    function generateRandomChoices(choicesArray) {
-        let randomChoices = []
-        while (randomChoices.length < choicesArray.length) {
-            let randomNumbers = Math.floor(Math.random() * choicesArray.length)
-            if (randomChoices.indexOf(choicesArray[randomNumbers]) === -1) randomChoices.push(choicesArray[randomNumbers]);
+
+
+    const randomizedChoices = useMemo(() => {
+        function generateRandomChoices(choicesArray) {
+            let randomChoices = []
+            while (randomChoices.length < choicesArray.length) {
+                let randomNumbers = Math.floor(Math.random() * choicesArray.length)
+                if (randomChoices.indexOf(choicesArray[randomNumbers]) === -1) randomChoices.push(choicesArray[randomNumbers]);
+            }
+            return randomChoices
         }
-        return randomChoices
-    }
+        return generateRandomChoices(questionData.choices);
+    }, [questionData.choices]);
 
     return (
         <div className="question">
@@ -23,7 +28,7 @@ export default function Question({selectItem, questionData}) {
             <div className="answer-container">
                 <div className="answer-section">
                     {
-                        generateRandomChoices(questionData.choices).map((choice, index) => (
+                        randomizedChoices.map((choice, index) => (
                             <button
                                 key={index}
                                 className={`answer-button`}
